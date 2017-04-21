@@ -9,6 +9,14 @@
   </head>
 
   <body>
+    <header>
+      <% if current_user %>
+        <%= logout %>
+      <% else %>
+        <%= login %>
+      <% end %>
+
+    </header>
     <%= yield %>
   </body>
 </html>

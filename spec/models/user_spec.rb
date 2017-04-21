@@ -5,9 +5,11 @@ RSpec.describe User, type: :model do
 
   describe 'validations' do
     it { should validate_presence_of(:username) }
-    it { should validate_presence_of(:password_digest) }
+    it do
+      should validate_presence_of(:password_digest).with_message("Password can't be blank")
+    end
     it { should validate_presence_of(:session_token) }
-    it { should validate_presence_of(:password) }
+    it { should have_secure_password }
     it { should validate_length_of(:password).is_at_least(6) }
   end
 
@@ -22,21 +24,21 @@ RSpec.describe User, type: :model do
 
     describe '::find_by_credentials' do
       it 'returns nil if bad credentials' do
-        bad_search = User.find_by_credentials(username: "bob", password: "blah")
+        bad_search = User.find_by_credentials("bob", "blah")
         expect(bad_search).to be_nil
       end
       it 'returns a User object with valid credentials' do
-        good = User.find_by_credentials(username: "bob", password: "password")
-        expect(good).to eq(:user)
+        good = User.find_by_credentials("bob", "password")
+        expect(good).to eq(user)
       end
     end
 
     describe '#is_password?' do
       it 'should return false for an invalid password' do
-        expect(user.is_password?("Hi")).to be_false
+        expect(user.is_password?("Hi")).to be_falsey
       end
       it 'should return true for a valid password' do
-        expect(user.is_password?("password")).to be_true
+        expect(user.is_password?("password")).to be_truthy
       end
     end
 

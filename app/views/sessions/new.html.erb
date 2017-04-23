@@ -1,5 +1,7 @@
 <h1>Log In</h1>
 
+<%= render 'layouts/error' %>
+
 <form action="<%= sessions_url %>" method="post">
   <%= auth_token %>
   <label for="username">username</label>

@@ -1,0 +1,4 @@
+<% unless flash[:] %>
+<% flash[:errors].each do |error| %>
+  <%= error %>
+<% end  %>

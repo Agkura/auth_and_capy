@@ -21,6 +21,16 @@ class User < ApplicationRecord
 
   has_many :goals
 
+  has_many :user_comments,
+    primary_key: :id,
+    foreign_key: :author_id,
+    class_name: :UserComment
+
+  has_many :comments,
+    primary_key: :id,
+    foreign_key: :page_owner_id,
+    class_name: :UserComment
+
   def reset_session_token!
     self.session_token = SecureRandom::urlsafe_base64
     self.save!
